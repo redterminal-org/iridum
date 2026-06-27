@@ -728,7 +728,6 @@ class CmdMail(MuxCommand):
                 text=output,
                 always_page=True,
                 exit_on_lastpage=True,
-                page=True,
             )
         else:
             self.caller.msg(output)
@@ -907,7 +906,6 @@ class CmdMail(MuxCommand):
                     text=self._output_mail(self.mail),
                     always_page=True,
                     exit_on_lastpage=True,
-                    page=True,
                 )
                 for thread in self.threads:
                     if thread.db.name == self.mail.db.thread_name:
@@ -1376,7 +1374,6 @@ class CmdMail(MuxCommand):
                         text=self._output_mail(self.mail),
                         always_page=True,
                         exit_on_lastpage=True,
-                        page=True,
                     )
                 else:
                     self.caller.msg(self._output_mail(self.mail))

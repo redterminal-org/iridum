@@ -348,7 +348,6 @@ class CmdTodo(MuxCommand):
                 caller,
                 text=output,
                 exit_on_lastpage=True,
-                page=True
             )
             return
 

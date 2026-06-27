@@ -200,7 +200,6 @@ class CmdGuestbook(MuxCommand):
                     caller,
                     text=output,
                     exit_on_lastpage=True,
-                    page=True,
                 )
             else:
                 caller.msg(output)
