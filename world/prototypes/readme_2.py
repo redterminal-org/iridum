@@ -62,42 +62,111 @@ at the `TEST_FLOWER` object for an example.
 #### Please prefix all readme prototypes with "README_" in this file ####
 
 #### Proto: README_FREEBSD ####
-_README_FREEBSD_TEXT = """|RThis is the |RFreeBSD|g README|n
+_README_FORUM_TEXT = """|RThis is the |RForum|g README|n
 
-I've set up the |rIridum|g virtual, interactive Text Matrix|n on my
-SmolNet/Gemini/Gopher/Finger server, because the little resources it uses
-makes it the ideal server for the MUD/MUSH! But remember: It won't be a
-classical RPG adventure MUD/MUSH, but a virtual text environment, where the
-users can build an interactive text universe as they please.
+The most difficult thing will be the operation of the integrated editor,
+which needs a little practice. Read the "Editor README" with |cl editor|n,
+for a short introduction.
 
-And because I already have this very low resource using FreeBSD 15.1-RELEASE
-server at the moment, which has much more than enough resources free, I think,
-this is a good solution.
+The help for the Forum commands can be listed with |chelp forum|n. This
+will list all Forum commands provided to you. These are:
 
-Because you're reading this, you already found your way into this environment.
-I hope your way into this Matrix wasn't too cumbersome, but I wanted to use
-Telnet-SSL to have at least a little security. I recommend TinyFugue or even
-tintin++ which have a few niceties (like support for SSL over Telnet). I
-also set up a Prompt for TinTin++ which shows your recent character, your
-AWAY status, location and received ingame mail.
+1. "add"
 
-So the only thing I'll add to the |miridum.redterminal.org:4444|n Telnet-SSL
-is the included web MUD client from evennia, for people, who have problems
-with a regular MUD connection, so they can connect through the web.
+- Usage "add[/edit] <subject> [= <message>]". This will add a new Forum
+thread with the subject <subject> and the optional message <message>. If the
+message is omitted, the editor will open, no matter if you use the "/edit"
+switch or not.  If you use the "/edit" swtitch together with a message,
+the editor will be initialized with the <message> to begin with.
 
-Of course I'll make reqular daily backups at night (Central European Time),
-so we'll be prepared in case of desaster.
+- Usage "add[/edit] <#dbref> [= <subject>][;;<message>]". Using a <#dbref>
+of a thread, will add a comment to the thread, with the subject <subject> and
+message <message>. You can only use the <#dbref>, which then uses the subject
+of the thread and open the editor, like always if you omit the <message>.
+
+2. "archive"
+
+- Usage "archive <#dbref of thread> = <true||false>". This lets you
+(un)archive a thread of yourself. This will (un)lock the thread without
+deleting its comments.  If locked, no more comments can be added to the
+thread.
+
+3. "archived"
+
+- Usage "archived". This will show you a list of all archived threads. These
+are locked and you can't add new comments to it.
+
+4. "change"
+
+- Usage "change[/edit] <#dbref of thread||comment> [=
+<subject>][;;<message>]".  This lets you change a Forum thread or comment
+by yourself. If <subject> is omitted it won't be changed. If <message> is
+omitted the editor will open, even if you didn't specify the "/edit" switch.
+
+- Example "change/edit #453 = My new subject;;A short interesting note". This
+will open the thread or comment with <#dbref>, change the subject to
+"My new subject" and open the editor with the initial message "A short
+interesting note".
+
+5. "delete"
+
+- Usage "delete <#dbref of thread||comment>". This will delete a thread
+or comment of yourself with the given <#dbref>. Note that all comments,
+even from other users will be deleted, when deleting a thread. Consider
+archiving it instead.
+
+6. "follow"
+
+- Usage "follow <#dbref of thread>". This lets you explicitly follow a
+specific thread. The '(unseen)' tag will be removed. This will make the
+thread appear in the list of threads when emitting the "look" command.
+
+7. "list"
+
+- Usage "list". Shows the complete list of threads without archived
+(locked) ones.
+
+8. "pin"
+
+- Usage "pin <#dbref of thread>". This will pin a thread at the beginning
+of the list of threads when using the "look" command. This is an "Expert
+Builder" command, so it isn't available with lower privileges.
+
+9. "show" - Usage "show <#dbref of thread||comment>". This will show the whole
+thread with comments or a single comment. You can also show archived threads.
+
+|yNote|n: Despite having seen the thread, the "(unseen)" tag won't be removed.
+You have to explicitly "unfollow <#dbref>" to get rid of seeing it or
+"follow <#dbref>" to show it with the "look" command.
+
+10. "unfollow"
+
+- Usage "unfollow <#dbref of thread>". This will hide the thread from the
+list when using the "look" command.
+
+11. "unpin"
+
+- Usage "unpin <#dbref of pinned thread>". This will remove the pinned
+thread from the top of the list when using the "look" command. This is an
+"Expert Builder" command, so it isn't available with lower privileges.
+
+---
+
+I know this is a lot of stuff to learn, like the "mail" command, but the
+most complicated thing will be operating the editor, which can be very
+complicated at first and needs some practice. Read the "Editor README"
+(|cl editor|n) for a short introduction.
 
 Have fun, fab (administrator)"""
 
-README_FREEBSD = {
-    "key": "FreeBSD README",
-    "aliases": ["freebsd"],
+README_FORUM = {
+    "key": "Forum README",
+    "aliases": ["forum"],
     "typeclass": "world.objects.readme.Readme",
     "attrs": [
         (
             "text",
-            _README_FREEBSD_TEXT,
+            _README_FORUM_TEXT,
             None,
             "attredit:perm(Expert Builder);attrread:all();",
         ),
