@@ -1,0 +1,36 @@
+### Imports ###
+from evennia.utils import evmore
+
+# Overloads _display variable in evmore
+evmore._DISPLAY = """{text}
+|n(|mPage|n [{pageno}/{pagemax}] |cn|next|n || |cp|nrevious || |ct|nop || |ce|nnd || |cq|nuit)"""
+
+EvMore = evmore.EvMore
+
+
+def msg(
+    caller,
+    text="",
+    always_page=False,
+    session=None,
+    justify=False,
+    justify_kwargs=None,
+    exit_on_lastpage=True,
+    page=True,
+    prompt=None,
+    **kwargs,
+):
+    if page and caller.db.disable_page == False:
+        text = text.replace("|/", "\n")
+        evmore.msg(
+            caller,
+            text=text,
+            always_page=always_page,
+            session=session,
+            justify=justify,
+            justify_kwargs=justify_kwargs,
+            exit_on_lastpage=exit_on_lastpage,
+            **kwargs,
+        )
+    else:
+        caller.msg(text, prompt=prompt)
