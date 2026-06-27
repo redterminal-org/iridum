@@ -12,8 +12,8 @@ I've been working on this for a long time now (with a break of 6 month) to make
 at least a starting environment. There are still a lot of bugs and I have lot of
 things to do but I hope for vivid participation and contributions.
 
-**MIRRORS**
-https://github.com/redterminal-org/iridum
+**MIRRORS** \
+https://github.com/redterminal-org/iridum \
 https://codeberg.org/fab/iridum
 
 ---
