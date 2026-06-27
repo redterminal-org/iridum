@@ -62,10 +62,15 @@ version for Iridum. Here are the steps to build a local development environment.
    ```
 
 2. Change into the `~/dev` directory and clone original repository (which we'll
-   use here) or your fork on Codeberg.org:
+   use here) or your fork on Codeberg.org. Then you need to copy the
+   `settings_localhost.py` to `settings.py`, to use the localhost settings and
+   not the original server settings, which won't work.
    ```bash
    cd ~/dev
-   git clone https://codeberg.org/fab/Iridum
+   git clone https://codeberg.org/fab/iridum
+   cd ~/iridum/server/conf/
+   cp settings_localhost.py settings.py
+   cd ~/dev
    ```
 
 3. Create the virtual Python3 environment and start it:

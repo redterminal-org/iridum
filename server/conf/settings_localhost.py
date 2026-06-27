@@ -36,10 +36,10 @@ from evennia.settings_default import *
 # This is the name of your game. Make it catchy!
 SERVERNAME = "Iridum"
 GAME_SLOGAN = "Experimental Evennia Virtual Text Environment Developing System"
-SERVER_HOSTNAME = "iridum.redterminal.org"
+SERVER_HOSTNAME = "localhost"
 TELNET_INTERFACES = ["::"]
 TELNET_ENABLED = False
-SSL_INTERFACES = ["::"]
+SSL_INTERFACES = ["127.0.0.1", "::1"]
 SSL_ENABLED = True
 SSL_PORTS = [4444]
 
@@ -49,7 +49,7 @@ SSL_CERTIFICATE_ISSUER = {
     "L": "Evennia",
     "O": "redterminal.org",
     "OU": "Iridum Experimental Evennia MUD",
-    "CN": "iridum.redterminal.org",
+    "CN": "localhost",
 }
 
 STAFF_CONTACT_EMAIL = '-fab- <fab@redterminal.org>'
@@ -62,7 +62,7 @@ WEBSERVER_ENABLED = True
 # This is a security setting protecting against host poisoning
 # attacks.  It defaults to allowing all. In production, make
 # sure to change this to your actual host addresses/IPs.
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1", "::1"]
 # The webserver sits behind a Portal proxy. This is a list
 # of tuples (proxyport,serverport) used. The proxyports are what
 # the Portal proxy presents to the world. The serverports are
@@ -95,18 +95,18 @@ WEBSOCKET_CLIENT_ENABLED = True
 # front-facing client's sake.
 WEBSOCKET_CLIENT_PORT = 4002
 # Interface addresses to listen to. If 0.0.0.0, listen to all. Use :: for IPv6.
-WEBSOCKET_CLIENT_INTERFACE = "::"
+WEBSOCKET_CLIENT_INTERFACE = "127.0.0.1"
 # Actual URL for webclient component to reach the websocket. You only need
 # to set this if you know you need it, like using some sort of proxy setup.
 # If given it must be on the form "ws[s]://hostname[:port]". If left at None,
 # the client will itself figure out this url based on the server's hostname.
 # e.g. ws://external.example.com or wss://external.example.com:443
-WEBSOCKET_CLIENT_URL = "wss://iridum.redterminal.org/ws"
+WEBSOCKET_CLIENT_URL = "ws://localhost:4002/"
 # This determine's whether Evennia's custom admin page is used, or if the
 # standard Django admin is used.
 EVENNIA_ADMIN = True
 # Needed to avoid CSRF errors
-CSRF_TRUSTED_ORIGINS = ["https://iridum.redterminal.org"]
+CSRF_TRUSTED_ORIGINS = ["http://localhost:4001/"]
 # Send keep alive "idle" commands
 IDLE_TIMEOUT = -1
 
@@ -115,7 +115,7 @@ CMD_IGNORE_PREFIXES = "#&/+@"
 ### SSH CONFIG ###
 SSH_ENABLED = True
 SSH_PORTS = [8022]
-SSH_INTERFACES = ["::"]
+SSH_INTERFACES = ["127.0.0.1", "::1"]
 
 ### Game Time Setup ###
 # The TIME_UNITS are defined in the
