@@ -101,7 +101,7 @@ WEBSOCKET_CLIENT_INTERFACE = "::"
 # If given it must be on the form "ws[s]://hostname[:port]". If left at None,
 # the client will itself figure out this url based on the server's hostname.
 # e.g. ws://external.example.com or wss://external.example.com:443
-WEBSOCKET_CLIENT_URL = "wss://iridum.redterminal.org/ws"
+WEBSOCKET_CLIENT_URL = "wss://webclient.iridum.redterminal.org/ws"
 # This determine's whether Evennia's custom admin page is used, or if the
 # standard Django admin is used.
 EVENNIA_ADMIN = True
