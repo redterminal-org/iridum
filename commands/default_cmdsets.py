@@ -14,13 +14,14 @@ own cmdsets by inheriting from them or directly from `evennia.CmdSet`,
 if you want to add Commands to Objects or Rooms.
 """
 
+
 from evennia import default_cmds
 from evennia.commands.default import general, building, unloggedin, help
 
 from evennia.contrib.rpg import dice
 from commands import cmd_give, cmd_look, cmd_get_drop, cmd_away, cmd_inventory
 from commands import cmd_time, cmd_unconnected_help, cmd_paging, cmd_help
-from commands import builder_cmds, cmd_help_paging
+from commands import builder_cmds, cmd_help_paging, cmd_unconnected_create
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -109,6 +110,9 @@ class UnloggedinCmdSet(default_cmds.UnloggedinCmdSet):
         # New help command
         self.remove(unloggedin.CmdUnconnectedHelp())
         self.add(cmd_unconnected_help.CmdUnconnectedHelp())
+        # New create command
+        self.remove(unloggedin.CmdUnconnectedCreate())
+        self.add(cmd_unconnected_create.CmdUnconnectedCreate())
 
 
 class SessionCmdSet(default_cmds.SessionCmdSet):
