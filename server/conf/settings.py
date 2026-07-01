@@ -106,7 +106,7 @@ WEBSOCKET_CLIENT_URL = "wss://webclient.iridum.redterminal.org/ws"
 # standard Django admin is used.
 EVENNIA_ADMIN = True
 # Needed to avoid CSRF errors
-CSRF_TRUSTED_ORIGINS = ["https://iridum.redterminal.org"]
+CSRF_TRUSTED_ORIGINS = ["https://webclient.iridum.redterminal.org"]
 # Send keep alive "idle" commands
 IDLE_TIMEOUT = -1
 
