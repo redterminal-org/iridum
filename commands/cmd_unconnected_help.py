@@ -34,9 +34,14 @@ class CmdUnconnectedHelp(COMMAND_DEFAULT_CLASS):
   |cquit|n - abort the connection
 
 First create an account e.g. with |ccreate Anna c67jHL8p|n
-(If you have spaces in your name, use double quotes: 
-|ccreate "Anna the Barbarian" c67jHL8p|n
+|wNOTE:|n Don't use double quotes or spaces in your username and password.
+      Use only '|Y[a-z][A-Z][0-9]-_|n' characters. Passwords must have a
+      minimum of 8 characters.
+
 Next you can connect to the game: |cconnect Anna c67jHL8p|n
+
+With your new accountname and password, you can also log into the wiki and 
+edit the |gIridum documentation|n at: |Mhttps://iridum.redterminal.org|n
 
 You can use the |clook|n command if you want to see the connect screen again.
 

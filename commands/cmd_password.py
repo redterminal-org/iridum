@@ -19,12 +19,13 @@ method. Otherwise all text will be returned to all connected sessions.
 
 """
 import subprocess
+from os.path import isfile
 from django.conf import settings
 
 from evennia.utils import logger, utils
 
 COMMAND_DEFAULT_CLASS = utils.class_from_module(settings.COMMAND_DEFAULT_CLASS)
-
+_FILE_PHP_RUN = "/var/www/html/maintenance/run.php"
 
 class CmdPassword(COMMAND_DEFAULT_CLASS):
     """
@@ -33,7 +34,8 @@ class CmdPassword(COMMAND_DEFAULT_CLASS):
     Usage:
       password <old password> = <new password>
 
-    Changes your password. Make sure to pick a safe one.
+    Changes your password. Make sure to pick a safe one. This also sets the
+    password for the Wiki account of the same name.
     """
 
     key = "password"
@@ -62,14 +64,16 @@ class CmdPassword(COMMAND_DEFAULT_CLASS):
             string = "\n".join(errors)
             self.msg(string)
         else:
-            wiki_result = subprocess.run(
-            ["sudo", "/usr/bin/php", "/var/www/html/maintenance/createAndPromote.php",
-                self.account.name, newpass, "--force"], capture_output=True)
-            if wiki_result.returncode != 0:
-                self.msg("MediaWiki: ")
-                self.msg(wiki_result.stderr)
-                self.msg(wiki_result.stdout)
-                return
+            if isfile(_FILE_PHP_RUN):
+                wiki_result = subprocess.run(
+                ["sudo", "/usr/bin/php", _FILE_PHP_RUN,
+                "createAndPromote", self.account.name, newpass, "--force"],
+                capture_output=True)
+                if wiki_result.returncode != 0:
+                    self.msg("MediaWiki: ")
+                    self.msg(wiki_result.stderr)
+                    self.msg(wiki_result.stdout)
+                    return
             account.set_password(newpass)
             account.save()
             self.msg("Account and Wiki Password changed.")

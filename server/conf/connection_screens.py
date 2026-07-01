@@ -44,7 +44,9 @@ If you have an existing account, connect to it by typing:
 If you don't have an account to create an account, you can create one:
      |ccreate <username> <password>|n
 
-If you have spaces in your username, enclose it in quotes.
+The username may only contain the characters '|Y[a-z][A-Z][0-9]-_|n'.
+Usernames and passwords may not contain spaces and must not be in quotes.
+
 Enter |chelp|n for more info. |clook|n will re-show this screen.
 |bi==========================================================================|n""".format(
     settings.SERVERNAME, utils.get_evennia_version("short")

@@ -11,13 +11,14 @@ COMMAND_DEFAULT_CLASS = utils.class_from_module(settings.COMMAND_DEFAULT_CLASS)
 
 CONNECTION_SCREEN_MODULE = settings.CONNECTION_SCREEN_MODULE
 
+_FILE_PHP_RUN = "/var/www/html/maintenance/run.php"
+
 class CmdUnconnectedCreate(COMMAND_DEFAULT_CLASS):
     """
     create a new account account
 
     Usage (at login screen):
       create <accountname> <password>
-      create "account name" "pass word"
 
     This creates a new account <accountname>. It also creates a new user account
     on the Wiki at https://iridum.redterminal.org/ with the same credentials, so
@@ -25,7 +26,8 @@ class CmdUnconnectedCreate(COMMAND_DEFAULT_CLASS):
 
     The <password> has to be at least 8 characters long.
 
-    If you have spaces in your name, enclose it in double quotes.
+    Don't use spaces or double quotes for your username and password.
+    Only use "[a-z][A-Z][0-9]-_" characters for your username.
     """
 
     key = "create"
@@ -50,9 +52,6 @@ class CmdUnconnectedCreate(COMMAND_DEFAULT_CLASS):
 
         address = session.address
 
-        # Get account class
-        Account = class_from_module(settings.BASE_ACCOUNT_TYPECLASS)
-
         # extract double quoted parts
         parts = [part.strip() for part in re.split(r"\"", args) if part.strip()]
         if len(parts) == 1:
@@ -68,6 +67,28 @@ class CmdUnconnectedCreate(COMMAND_DEFAULT_CLASS):
 
         username, password = parts
 
+        # Check username and password
+        allowed_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_"
+        validation = set(username)
+        if not validation.issubset(allowed_chars):
+            session.msg(
+                    "|rError:|R Only use '[a-z][A-Z][0-9]-_' characters for your username!|n"
+            )
+            return
+        if len(password) < 8:
+            session.msg(
+                    "|rError:|R The password must be at least 8 characters long!|n"
+            )
+            return
+        accounts = evennia.search_account(username)
+        if len(accounts) > 0:
+            session.msg(
+                    "|rError:|R This username already exists!|n"
+            )
+            return
+
+        # Get account class
+        Account = class_from_module(settings.BASE_ACCOUNT_TYPECLASS)
         # pre-normalize username so the user know what they get
         non_normalized_username = username
         username = Account.normalize_username(username)
@@ -86,23 +107,20 @@ class CmdUnconnectedCreate(COMMAND_DEFAULT_CLASS):
             session.msg("Aborted. If your user name contains spaces, surround it by quotes.")
             return
 
-        # everything's ok. Create the new player account. If not already exists.
-        a = evennia.search_account(username)
-        if len(a) > 0:
-            string = "Account already exists! Choose a different <username>"
-            session.msg(string)
-            return
-        wiki_result = subprocess.run(
-        ["sudo", "/usr/bin/php", "/var/www/html/maintenance/createAndPromote.php",
-            username, password], capture_output=True)
-        if wiki_result.returncode != 0:
-            session.msg("MediaWiki: ")
-            session.msg(wiki_result.stderr)
-            session.msg(wiki_result.stdout)
-            return
+        # Create account
         account, errors = Account.create(
             username=username, password=password, ip=address, session=session
         )
+
+        # everything's ok. Create the new player account. If not already exists.
+        wiki_result = subprocess.run(
+        ["sudo", "/usr/bin/php", _FILE_PHP_RUN,
+            "createAndPromote", username, password], capture_output=True)
+        if wiki_result.returncode != 0:
+            session.msg("MediaWiki Error:\n")
+            session.msg(str(wiki_result.stderr))
+            session.msg(str(wiki_result.stdout))
+
         if account:
             # tell the caller everything went well.
             string = "A new account '%s' was created. Welcome!"
@@ -112,11 +130,12 @@ class CmdUnconnectedCreate(COMMAND_DEFAULT_CLASS):
                 )
             else:
                 string += "\n\nYou can now log with the command 'connect %s <your password>'."
-            if wiki_result.returncode == 0:
-                string += "\nYou can now also login with your new credentials to the Wiki at:\n"
-                string +="|mhttps://iridum.redterminal.org|n\n"
-            else:
-                string += "\n\nThere was an error creating your Wiki account. Please call one of the admins."
+            if wiki_result:
+                if wiki_result.returncode == 0:
+                    string += "\nYou can now also login with your accountname '{username}' to the Wiki at:\n"
+                    string +="|mhttps://iridum.redterminal.org|n\n"
+                else:
+                    string += "\n\nThere was an error creating your Wiki account. Please call one of the admins."
             session.msg(string % (username, username))
         else:
             session.msg("|R%s|n" % "\n".join(errors))
