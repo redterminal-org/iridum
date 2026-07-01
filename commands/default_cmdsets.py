@@ -17,11 +17,13 @@ if you want to add Commands to Objects or Rooms.
 
 from evennia import default_cmds
 from evennia.commands.default import general, building, unloggedin, help
+from evennia.commands.default import account
 
 from evennia.contrib.rpg import dice
 from commands import cmd_give, cmd_look, cmd_get_drop, cmd_away, cmd_inventory
 from commands import cmd_time, cmd_unconnected_help, cmd_paging, cmd_help
 from commands import builder_cmds, cmd_help_paging, cmd_unconnected_create
+from commands import cmd_password
 
 
 class CharacterCmdSet(default_cmds.CharacterCmdSet):
@@ -91,6 +93,10 @@ class AccountCmdSet(default_cmds.AccountCmdSet):
         Populates the cmdset
         """
         super().at_cmdset_creation()
+
+        # New look command to use evmore.msg
+        self.remove(account.CmdPassword())
+        self.add(cmd_password.CmdPassword())
 
 
 class UnloggedinCmdSet(default_cmds.UnloggedinCmdSet):
