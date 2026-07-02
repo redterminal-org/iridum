@@ -80,9 +80,10 @@ look at:
 
 |yhttps://www.evennia.com/|n
 
-If you don't want to use the integrated pager, use |c'set me/disable_page =
-True'|n, if you want to use your scrolling in your MUD client. I have not
-fully made it switchable, so you might get in contact with the pager again.
+If you don't want to use the integrated pager, use |c'paging'|n, to toggle
+general scrolling ON and OFF. Paging for help pages is separate and you can
+toggle it ON and OFF with the |c'helppaging'|n command.I have not fully made
+it switchable, so you might get in contact with the pager again.
 
 If you have gathered enough experience with "playing" in this space, you could
 try to build things yourself, if you ask the Administrator of this MUD/MUSH
