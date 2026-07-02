@@ -264,7 +264,7 @@ README_DEVELOPER = {
         ),
     ],
     "prototype_tags": ["readme"],
-    "prototype_desc": "A README document about 'deveopment'",
+    "prototype_desc": "A README document about 'development'",
     "prototype_locks": "spawn:perm(Beginner Builder);edit:perm(Expert Builder);",
 }
 

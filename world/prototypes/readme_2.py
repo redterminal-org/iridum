@@ -178,6 +178,6 @@ README_FORUM = {
         ),
     ],
     "prototype_tags": ["readme"],
-    "prototype_desc": "A README document about Downtimes",
+    "prototype_desc": "A README document about the Forum",
     "prototype_locks": "spawn:perm(Beginner Builder);edit:perm(Expert Builder);",
 }
